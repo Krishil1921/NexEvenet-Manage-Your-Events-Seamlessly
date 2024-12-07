@@ -1,0 +1,100 @@
+// Sticky Navbar on Scroll
+window.addEventListener('scroll', function () {
+    const header = document.querySelector('header');
+    // Toggle 'sticky' class based on scroll position
+    header.classList.toggle('sticky', window.scrollY > 0);
+});
+
+// Smooth Scrolling for navigation links
+const navLinks = document.querySelectorAll('nav ul li a');
+navLinks.forEach(link => {
+    link.addEventListener('click', function (e) {
+        // Prevent default behavior of jumping to section
+        e.preventDefault();
+
+        // Get the target section by matching the href
+        const targetId = this.getAttribute('href').substring(1);
+        const targetSection = document.getElementById(targetId);
+
+        // Adjust top for smooth scrolling considering margins and padding
+        const offset = targetSection.getBoundingClientRect().top + window.scrollY - 60;
+
+        // Scroll to the section smoothly
+        window.scrollTo({
+            top: offset, // Adjust for the fixed header height
+            behavior: 'smooth'
+        });
+    });
+});
+
+// Animate Hero Content on Page Load
+window.addEventListener('load', () => {
+    const heroContent = document.querySelector('.hero-content');
+    heroContent.classList.add('animate');
+});
+
+// Event Section Interactivity (Placeholder for event data or APIs)
+const eventCards = document.querySelectorAll('.event-card');
+eventCards.forEach(card => {
+    card.addEventListener('mouseover', function () {
+        this.style.transform = 'translateY(-10px)'; // Card hover effect
+    });
+
+    card.addEventListener('mouseleave', function () {
+        this.style.transform = 'translateY(0)'; // Reset after hover
+    });
+
+    card.addEventListener('click', function () {
+        alert(`You clicked on ${this.querySelector('h3').innerText}`);
+        // You can extend this to redirect to event detail pages or fetch more event details
+    });
+});
+
+// Back to Top Button (optional, add in the HTML if needed)
+const backToTopButton = document.createElement('button');
+backToTopButton.innerText = '↑';
+backToTopButton.classList.add('back-to-top');
+document.body.appendChild(backToTopButton);
+
+window.addEventListener('scroll', function () {
+    // Show or hide the button based on scroll position
+    if (window.scrollY > 500) {
+        backToTopButton.style.display = 'block';
+    } else {
+        backToTopButton.style.display = 'none';
+    }
+});
+
+backToTopButton.addEventListener('click', function () {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+});
+
+// Function to dynamically add more events (example)
+function addEvent(title, description) {
+    const eventsContainer = document.querySelector('.events-container');
+    const newEventCard = document.createElement('div');
+    newEventCard.classList.add('event-card');
+    newEventCard.innerHTML = `
+        <h3>${title}</h3>
+        <p>${description}</p>
+        <a href="#" class="btn-secondary">View Details</a>
+    `;
+    eventsContainer.appendChild(newEventCard);
+
+    // Add hover effects and click functionality for the new card
+    newEventCard.addEventListener('mouseover', function () {
+        this.style.transform = 'translateY(-10px)';
+    });
+    newEventCard.addEventListener('mouseleave', function () {
+        this.style.transform = 'translateY(0)';
+    });
+    newEventCard.addEventListener('click', function () {
+        alert(`You clicked on ${title}`);
+    });
+}
+
+// Example usage to add an event (you can replace this with real data from an API)
+addEvent('Event 4', 'Description of Event 4.');
